@@ -49,6 +49,7 @@ from theano.tensor import tanh
 
 import scipy.ndimage
 import os
+import re
 
 
 #### Constants
@@ -63,15 +64,21 @@ else:
     print "Running with a CPU.  If this is not desired, then the modify "+\
         "network3.py to set\nthe GPU flag to True."
 
-def load_data(folder='../data', count=10000):
-    files = [f for f in os.listdir(folder) if '.jpg' in f]
+def load_all_data(folder='../data', count=10000):
+    files = [os.path.join(folder, f) for f in os.listdir(folder) if '.jpg' in f]
+    count = min(count, len(files))
+    training_files = files[:int(round(count/5.0*3))]
+    validation_files = files[int(round(count/5.0*3)):int(round(count/5.0*4))]
+    test_files= files[int(round(count/5.0*4)):count]
+    return [load_data(training_files), load_data(validation_files), load_data(test_files)]
+
+def load_data(files):
     xs = []
     ys = []
-    for i in range(min(len(files), count)):
-        file = os.path.join(folder, files[i])
+    for file in files:
         print 'loading: ' + file
         xs.append(scipy.ndimage.imread(file, flatten=True).flatten())
-        ys.append(ord(files[i].lower().split('-')[1][0])-97)
+        ys.append(ord(re.match('.*-(......)-.*',file.lower()).groups()[0][0])-97)
     xs = theano.shared(np.array(xs, dtype=theano.config.floatX), borrow=True)
     ys = theano.shared(np.array(ys, dtype=theano.config.floatX), borrow=True)
     return xs, T.cast(ys, "int32")
