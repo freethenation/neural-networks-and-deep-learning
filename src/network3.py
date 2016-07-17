@@ -47,9 +47,12 @@ def ReLU(z): return T.maximum(0.0, z)
 from theano.tensor.nnet import sigmoid
 from theano.tensor import tanh
 
+import scipy.ndimage
+import os
+
 
 #### Constants
-GPU = True
+GPU = False
 if GPU:
     print "Trying to run under a GPU.  If this is not desired, then modify "+\
         "network3.py\nto set the GPU flag to False."
@@ -59,6 +62,19 @@ if GPU:
 else:
     print "Running with a CPU.  If this is not desired, then the modify "+\
         "network3.py to set\nthe GPU flag to True."
+
+def load_data(folder='../data', count=10000):
+    files = [f for f in os.listdir(folder) if '.jpg' in f]
+    xs = []
+    ys = []
+    for i in range(min(len(files), count)):
+        file = os.path.join(folder, files[i])
+        print 'loading: ' + file
+        xs.append(scipy.ndimage.imread(file, flatten=True).flatten())
+        ys.append(ord(files[i].lower().split('-')[1][0])-97)
+    xs = theano.shared(np.array(xs, dtype=theano.config.floatX), borrow=True)
+    ys = theano.shared(np.array(ys, dtype=theano.config.floatX), borrow=True)
+    return xs, T.cast(ys, "int32")
 
 #### Load the MNIST data
 def load_data_shared(filename="../data/mnist.pkl.gz"):
@@ -292,6 +308,8 @@ class SoftmaxLayer(object):
 
     def cost(self, net):
         "Return the log-likelihood cost."
+        from IPython.core.debugger import Tracer
+        Tracer()()
         return -T.mean(T.log(self.output_dropout)[T.arange(net.y.shape[0]), net.y])
 
     def accuracy(self, y):
