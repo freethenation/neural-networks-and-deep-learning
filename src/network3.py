@@ -315,8 +315,8 @@ class SoftmaxLayer(object):
 
     def cost(self, net):
         "Return the log-likelihood cost."
-        from IPython.core.debugger import Tracer
-        Tracer()()
+        #from IPython.core.debugger import Tracer
+        #Tracer()()
         return -T.mean(T.log(self.output_dropout)[T.arange(net.y.shape[0]), net.y])
 
     def accuracy(self, y):
