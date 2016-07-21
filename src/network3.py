@@ -65,7 +65,7 @@ else:
         "network3.py to set\nthe GPU flag to True."
 
 def load_all_data(folder='../data', count=10000):
-    files = [os.path.join(folder, f) for f in os.listdir(folder) if '.jpg' in f]
+    files = [os.path.join(folder, f) for f in os.listdir(folder) if '.jpg' in f or '.jpeg' in f]
     count = min(count, len(files))
     training_files = files[:int(round(count/5.0*3))]
     validation_files = files[int(round(count/5.0*3)):int(round(count/5.0*4))]
