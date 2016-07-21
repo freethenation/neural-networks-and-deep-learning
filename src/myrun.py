@@ -1,6 +1,6 @@
 from network3 import *
 mini_batch_size = 10
-training_data, validation_data, test_data = network3.load_all_data()
+training_data, validation_data, test_data = network3.load_all_data('/mnt/captchas')
 net = Network([                         
         ConvPoolLayer(image_shape=(mini_batch_size, 1, 70, 200), 
                       filter_shape=(20, 1, 5, 5), 
