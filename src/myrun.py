@@ -4,6 +4,8 @@ import theano.misc.pkl_utils
 with open('/mnt/data.zip','rb') as f:
   training_data, validation_data, test_data = theano.misc.pkl_utils.load(f)
 #training_data, validation_data, test_data = network3.load_all_data('/mnt/captchas')
+#with open('/mnt/data.zip', 'wb') as f:
+#  theano.misc.pkl_utils.dump((training_data, validation_data, test_data),f)
 net = Network([                                 
         ConvPoolLayer(image_shape=(mini_batch_size, 1, 70, 200),
                       filter_shape=(20, 1, 5, 5),

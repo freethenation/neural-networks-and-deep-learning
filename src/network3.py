@@ -64,7 +64,7 @@ else:
     print "Running with a CPU.  If this is not desired, then the modify "+\
         "network3.py to set\nthe GPU flag to True."
 
-def load_all_data(folder='../data', count=10000):
+def load_all_data(folder='../data', count=50000):
     files = [os.path.join(folder, f) for f in os.listdir(folder) if '.jpg' in f or '.jpeg' in f]
     count = min(count, len(files))
     training_files = files[:int(round(count/5.0*3))]
