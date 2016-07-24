@@ -51,6 +51,7 @@ import scipy.ndimage
 import os
 import re
 
+mini_batch_size = 30
 
 #### Constants
 GPU = True
