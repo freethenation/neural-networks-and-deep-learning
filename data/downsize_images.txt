@@ -1,0 +1,2 @@
+ls /mnt/captchas2/*.jpeg | parallel convert {} -quality 100 -resize 100x35 -extent 100x36 /mnt/captchas3/{}
+

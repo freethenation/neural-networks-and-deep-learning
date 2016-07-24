@@ -14,3 +14,19 @@ net = Network([
         SoftmaxLayer(n_in=100, n_out=26)], mini_batch_size)
 net.SGD(training_data, 60, mini_batch_size, 0.1, 
             validation_data, test_data)
+
+
+#try 2
+net = Network([                                   
+        ConvPoolLayer(image_shape=(mini_batch_size, 1, 70, 200),
+                      filter_shape=(40, 1, 7, 5),
+                      poolsize=(2, 2)),
+        ConvPoolLayer(image_shape=(mini_batch_size, 40, (70-6)/2, (200-4)/2),
+                      filter_shape=(40, 40, 5, 5),
+                      poolsize=(2, 2)),
+        FullyConnectedLayer(n_in=40 * ((200-4)/2-4)/2 * ((70-6)/2-4)/2, n_out=100),
+        SoftmaxLayer(n_in=100, n_out=26)], mini_batch_size)
+
+net.SGD(training_data, 200, mini_batch_size, 0.01,
+            validation_data, test_data)
+
