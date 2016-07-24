@@ -61,3 +61,4 @@ net = Network([
 net.SGD(training_data, 200, mini_batch_size, 0.02,
             validation_data, test_data, lmbda=0.1) #might remove lmbda if it does work well
 
+#try 6 set both ConvPoolLayer to have 80 instead of 40 layers.. source not here
