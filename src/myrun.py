@@ -27,10 +27,10 @@ net = Network([
         FullyConnectedLayer(n_in=40 * ((200-4)/2-4)/2 * ((70-6)/2-4)/2, n_out=100),
         SoftmaxLayer(n_in=100, n_out=26)], mini_batch_size)
 
-net.SGD(training_data, 200, mini_batch_size, 0.01,
+net.SGD(training_data, 200, mini_batch_size, 0.02,
             validation_data, test_data)
             
-#try 3
+#try 3 halved the size of the input data
 net = Network([                                   
         ConvPoolLayer(image_shape=(mini_batch_size, 1, 36, 100),
                       filter_shape=(40, 1, 5, 5),
@@ -44,7 +44,9 @@ net = Network([
 net.SGD(training_data, 200, mini_batch_size, 0.02,
             validation_data, test_data)
 
-#try 4
+#try 4 set both ConvPoolLayer to have 60 instead of 40 layers.. source not here
+
+#try 5 # using sing rectified linear units & l2 regularization
 from network3 import ReLU
 net = Network([                                   
         ConvPoolLayer(image_shape=(mini_batch_size, 1, 36, 100),
