@@ -61,4 +61,16 @@ net = Network([
 net.SGD(training_data, 200, mini_batch_size, 0.02,
             validation_data, test_data, lmbda=0.1) #might remove lmbda if it does work well
 
-#try 6 set both ConvPoolLayer to have 80 instead of 40 layers.. source not here
+#try 6 set both ConvPoolLayer to have 80 instead of 40 layers
+net = Network([                                   
+        ConvPoolLayer(image_shape=(mini_batch_size, 1, 36, 100),
+                      filter_shape=(80, 1, 5, 5),
+                      poolsize=(2, 2)),
+        ConvPoolLayer(image_shape=(mini_batch_size, 80, (36-4)/2, (100-4)/2),
+                      filter_shape=(80, 80, 5, 5),
+                      poolsize=(2, 2)),
+        FullyConnectedLayer(n_in=80 * ((36-4)/2-4)/2 * ((100-4)/2-4)/2, n_out=100),
+		FullyConnectedLayer(n_in=100, n_out=100),
+        SoftmaxLayer(n_in=100, n_out=26)], mini_batch_size)
+
+net.SGD(training_data, 200, mini_batch_size, 0.02, validation_data, test_data)
