@@ -70,7 +70,21 @@ net = Network([
                       filter_shape=(80, 80, 5, 5),
                       poolsize=(2, 2)),
         FullyConnectedLayer(n_in=80 * ((36-4)/2-4)/2 * ((100-4)/2-4)/2, n_out=100),
-		FullyConnectedLayer(n_in=100, n_out=100),
         SoftmaxLayer(n_in=100, n_out=26)], mini_batch_size)
 
 net.SGD(training_data, 200, mini_batch_size, 0.02, validation_data, test_data)
+
+#try 7 two fully connected layers 1000 nodes with drop out
+net = Network([                                   
+        ConvPoolLayer(image_shape=(mini_batch_size, 1, 36, 100),
+                      filter_shape=(80, 1, 5, 5),
+                      poolsize=(2, 2)),
+        ConvPoolLayer(image_shape=(mini_batch_size, 80, (36-4)/2, (100-4)/2),
+                      filter_shape=(80, 80, 5, 5),
+                      poolsize=(2, 2)),
+        FullyConnectedLayer(n_in=80 * ((36-4)/2-4)/2 * ((100-4)/2-4)/2, n_out=1000, p_dropout=0.5),
+	FullyConnectedLayer(n_in=1000, n_out=1000, p_dropout=0.5),
+        SoftmaxLayer(n_in=1000, n_out=26, p_dropout=0.5)
+     ], mini_batch_size)
+  
+ net.SGD(training_data, 200, mini_batch_size, 0.02, validation_data, test_data)
